@@ -1,0 +1,24 @@
+{
+  "name": "liv-sig-gen-api",
+  "version": "1.0.0",
+  "description": "API pour l'application de génération de livrets signaleur",
+  "main": "index.js",
+  "dependencies": {
+    "express": "^4.17.1",
+    "nodemon": "^2.0.14"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "start": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Romeo-Giorgio/liv-sig-gen-api.git"
+  },
+  "author": "Roméo Giorgio",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/Romeo-Giorgio/liv-sig-gen-api/issues"
+  },
+  "homepage": "https://github.com/Romeo-Giorgio/liv-sig-gen-api#readme"
+}
