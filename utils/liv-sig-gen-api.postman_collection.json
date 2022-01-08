@@ -1,0 +1,281 @@
+{
+	"info": {
+		"_postman_id": "0c024e2a-0490-48af-988f-fcba2c4b3d38",
+		"name": "liv-sig-gen-api",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Tracks",
+			"item": [
+				{
+					"name": "get Tracks",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5500/tracks",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5500",
+							"path": [
+								"tracks"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Tracks",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {}
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content",
+								"value": "application/json",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\":\"{{$randomStreetName}}\",\n    \"description\":\"{{$randomPhrase}}\"\n\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5500/tracks",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5500",
+							"path": [
+								"tracks"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Tracks",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5500/tracks",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5500",
+							"path": [
+								"tracks"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Signalers",
+			"item": [
+				{
+					"name": "get Signalers",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5500/signalers",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5500",
+							"path": [
+								"signalers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Signalers",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const LfirstName = pm.variables.replaceIn('{{$randomFirstName}}');",
+									"",
+									"pm.environment.set(\"firstName\", LfirstName);",
+									"",
+									"const LlastName = pm.variables.replaceIn('{{$randomLastName}}');",
+									"pm.environment.set(\"lastName\", LlastName);",
+									"",
+									"const LphoneNumber = pm.variables.replaceIn('{{$randomPhoneNumber}}');",
+									"pm.environment.set(\"phoneNumber\", LphoneNumber);",
+									"",
+									"const Lemail =pm.variables.replaceIn('{{$randomEmail}}');",
+									"pm.environment.set(\"email\", Lemail);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n \"lastName\":\"{{firstName}}\",\n \"firstName\":\"{{$randomLastName}}\",\n \"phoneNumber\":\"{{phoneNumber}}\",\n \"email\":\"{{email}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5500/signalers",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5500",
+							"path": [
+								"signalers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Signalers Copy",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n \"lastName\":\"dsfgsdf\",\n \"fristName\":\"sdfgsdfg\",\n \"phoneNumber\":\"0812736583\",\n \"email\":\"toto@msmsdf.com\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5500/signalers",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5500",
+							"path": [
+								"signalers"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Trackpoints",
+			"item": [
+				{
+					"name": "get TrackPoints",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5500/trackPoints",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5500",
+							"path": [
+								"trackPoints"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create TrackPoints",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"track\":\"61d9c3063e9efc7290aa67ee\",\n    \"latitude\":\"{{$randomLatitude}}\",\n    \"longitude\":\"{{$randomLongitude}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5500/trackPoints",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5500",
+							"path": [
+								"trackPoints"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete TrackPoints Copy",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5500/trackPoints",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5500",
+							"path": [
+								"trackPoints"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "firstName",
+			"value": ""
+		}
+	]
+}
