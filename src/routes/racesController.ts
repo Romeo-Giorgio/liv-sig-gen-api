@@ -1,6 +1,6 @@
 //********** Imports **********//
 import express from "express";
-import { trackPointsModel } from "../models/trackPointsModel";
+import { racesModel } from "../models/racesModel";
 import { ObjectId } from "../models/dbConfig";
 
 const router = express.Router();
@@ -9,7 +9,7 @@ const router = express.Router();
 
 // READ
 router.get('/', (request, response) => {
-    trackPointsModel.find((err, docs)=>{
+    racesModel.find((err, docs)=>{
         if(!err){
             response.send(docs);
         }
@@ -21,10 +21,11 @@ router.get('/', (request, response) => {
   
   // CREATE
   router.post('/', (request, response)=>{
-      const newRecord  = new trackPointsModel({
-        track: request.body.track,
-        latitude: request.body.latitude,
-        longitude: request.body.longitude
+      const newRecord  = new racesModel({
+          name: request.body.name,
+          description: request.body.description,
+          folder: request.body.folder,
+          displayed: request.body.displayed
       });
   
       newRecord.save((err, docs)=>{
@@ -44,12 +45,13 @@ router.get('/', (request, response) => {
       }
   
       const recordToUpdate = {
-        track: request.body.track,
-        latitude: request.body.latitude,
-        longitude: request.body.longitude
+        name: request.body.name,
+        description: request.body.description,
+        folder: request.body.folder,
+        displayed: request.body.displayed
       };
   
-      trackPointsModel.findByIdAndUpdate(request.params.id, {$set: recordToUpdate}, {new: true}, (err, docs)=>{
+      racesModel.findByIdAndUpdate(request.params.id, {$set: recordToUpdate}, {new: true}, (err, docs)=>{
           if(!err){
               response.send(docs);
           }
@@ -65,7 +67,7 @@ router.get('/', (request, response) => {
           return response.status(400).send(`Unknown ID : ${request.params.id}`);
       }
   
-      trackPointsModel.findByIdAndRemove(request.params.id, {}, (err, docs)=>{
+      racesModel.findByIdAndRemove(request.params.id, {}, (err, docs)=>{
           if(!err){
               response.send(docs);
           }
@@ -74,5 +76,6 @@ router.get('/', (request, response) => {
           }
       })
   });
+  console.log("This shows errors")
   
   export default router;
