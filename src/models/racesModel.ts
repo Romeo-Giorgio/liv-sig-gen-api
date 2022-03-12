@@ -3,7 +3,7 @@ import { model, Schema } from "mongoose";
 import { Folder } from "./foldersModel";
 
 //********** Types **********//
-export interface Track{
+export interface Race{
     name: string,
     description?: string,
     folder?:Folder,
@@ -11,11 +11,11 @@ export interface Track{
 }
 
 //********** Model **********//
-const tracksSchema = new Schema<Track>({
+const racesSchema = new Schema<Race>({
     name: {type: String, required: true},
     description: {type: String, required: false},
     folder: {type: Schema.Types.ObjectId, ref: 'Folder'},
     displayed: {type: Boolean, required: false, default: true},
 });
 
-export const tracksModel = model<Track>("Track", tracksSchema);
+export const racesModel = model<Race>("Race", racesSchema);
