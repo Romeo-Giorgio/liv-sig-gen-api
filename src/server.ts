@@ -5,7 +5,7 @@ import racePointsController from "./routes/racePointsController";
 import racesController from "./routes/racesController";
 import cors from "cors";
 
-const allowedOrigins = ["http://127.0.0.1:3000"];
+const allowedOrigins = ["http://localhost:3000", "http://127.0.0.1:3000"];
 
 const options: cors.CorsOptions = {
   origin: allowedOrigins,
