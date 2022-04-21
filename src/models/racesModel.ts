@@ -4,6 +4,7 @@ import { Folder } from "./foldersModel";
 
 //********** Types **********//
 export interface Race {
+  id: string;
   name: string;
   description?: string;
   folder?: Folder;
@@ -12,6 +13,7 @@ export interface Race {
 
 //********** Model **********//
 const racesSchema = new Schema<Race>({
+  id: { type: String, required: true },
   name: { type: String, required: true },
   description: { type: String, required: false },
   folder: { type: Schema.Types.ObjectId, ref: "Folder" },
