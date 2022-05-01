@@ -8,7 +8,7 @@ const router = express.Router();
 //********** Routes **********//
 
 // READ
-router.get("/", (_, response) => {
+router.get("/", (request, response) => {
   console.log("getRaces");
   racesModel.find((err, docs) => {
     if (!err) {
@@ -23,7 +23,6 @@ router.get("/", (_, response) => {
 router.post("/", (request, response) => {
   console.log("create race");
   const newRecord = new racesModel({
-    id: request.body.id,
     name: request.body.name,
     description: request.body.description,
     folder: request.body.folder,
