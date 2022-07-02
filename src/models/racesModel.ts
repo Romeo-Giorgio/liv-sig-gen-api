@@ -1,21 +1,66 @@
-//********** Imports **********//
-import { model, Schema } from "mongoose";
-import { Folder } from "./foldersModel";
+//********** Imports **********/
+import { pool } from "./dbConfig";
 
 //********** Types **********//
 export interface Race {
+  raceId: string;
   name: string;
   description?: string;
-  folder?: Folder;
   displayed?: boolean;
 }
 
 //********** Model **********//
-const racesSchema = new Schema<Race>({
-  name: { type: String, required: true },
-  description: { type: String, required: false },
-  folder: { type: Schema.Types.ObjectId, ref: "Folder" },
-  displayed: { type: Boolean, required: false, default: true },
-});
+export const racesModel = {
+  getAll: () => {
+    return new Promise((resolve, reject) => {
+      pool.query("select * from race", (err, results) => {
+        if (err) {
+          return reject(err);
+        }
+        return resolve(results);
+      });
+    });
+  },
 
-export const racesModel = model<Race>("Race", racesSchema);
+  getById: (raceId: string) => {
+    return new Promise((resolve, reject) => {
+      pool.query(
+        `select * from race where raceId = '${raceId}'`,
+        (err, results) => {
+          if (err) {
+            return reject(err);
+          }
+          return resolve(results[0]);
+        }
+      );
+    });
+  },
+
+  create: (race: Race) => {
+    return new Promise((resolve, reject) => {
+      pool.query(
+        `insert into race (raceId, name, description, displayed) values ('${race.raceId}', '${race.name}', '${race.description}',${race.displayed})`,
+        (err, results) => {
+          if (err) {
+            return reject(err);
+          }
+          return resolve(results);
+        }
+      );
+    });
+  },
+
+  delete: (raceId: string) => {
+    return new Promise((resolve, reject) => {
+      pool.query(
+        `delete from race where raceId = '${raceId}'`,
+        (err, results) => {
+          if (err) {
+            return reject(err);
+          }
+          return resolve(results);
+        }
+      );
+    });
+  },
+};

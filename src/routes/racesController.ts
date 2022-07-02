@@ -1,86 +1,84 @@
 //********** Imports **********//
 import express from "express";
-import { racesModel } from "../models/racesModel";
-import { ObjectId } from "../models/dbConfig";
+import { Race, racesModel } from "../models/racesModel";
 
 const router = express.Router();
 
 //********** Routes **********//
 
 // READ
-router.get("/", (request, response) => {
-  console.log("getRaces");
-  racesModel.find((err, docs) => {
-    if (!err) {
-      response.send(docs);
-    } else {
-      console.log(`Error to get data : ${err}`);
-    }
-  });
+router.get("/", async (request, response) => {
+  try {
+    const results = await racesModel.getAll();
+    response.json(results);
+  } catch (e) {
+    console.log(e);
+    response.sendStatus(500);
+  }
+});
+
+router.get("/:raceId", async (request, response) => {
+  try {
+    const results = await racesModel.getById(request.params.raceId);
+    response.json(results);
+  } catch (e) {
+    console.log(e);
+    response.sendStatus(500);
+  }
 });
 
 // CREATE
-router.post("/", (request, response) => {
-  console.log("create race");
-  const newRecord = new racesModel({
-    name: request.body.name,
-    description: request.body.description,
-    folder: request.body.folder,
-    displayed: request.body.displayed,
-  });
-
-  newRecord.save((err, docs) => {
-    if (!err) {
-      response.send(docs);
-    } else {
-      console.log(`Error to save new data : ${err}`);
-    }
-  });
-});
-
-// UPDATE
-router.put("/:id", (request, response) => {
-  console.log("update race");
-  if (!ObjectId.isValid(request.params.id)) {
-    return response.status(400).send(`Unknown ID : ${request.params.id}`);
+router.post("/", async (request, response) => {
+  try {
+    const newRace: Race = {
+      raceId: request.body.raceId,
+      name: request.body.name,
+      description: request.body.description,
+      displayed: request.body.displayed,
+    };
+    const results = await racesModel.create(newRace);
+    response.json(results);
+  } catch (e) {
+    console.log(e);
+    response.sendStatus(500);
   }
-
-  const recordToUpdate = {
-    name: request.body.name,
-    description: request.body.description,
-    folder: request.body.folder,
-    displayed: request.body.displayed,
-  };
-
-  racesModel.findByIdAndUpdate(
-    request.params.id,
-    { $set: recordToUpdate },
-    { new: true },
-    (err, docs) => {
-      if (!err) {
-        response.send(docs);
-      } else {
-        console.log(`Error to update  data : ${err}`);
-      }
-    }
-  );
 });
-
 // DELETE
-router.delete("/:id", (request, response) => {
-  console.log("delete race");
-  if (!ObjectId.isValid(request.params.id)) {
-    return response.status(400).send(`Unknown ID : ${request.params.id}`);
+router.delete("/:raceId", async (request, response) => {
+  try {
+    const results = await racesModel.delete(request.params.raceId);
+    response.json(results);
+  } catch (e) {
+    console.log(e);
+    response.sendStatus(500);
   }
-
-  racesModel.findByIdAndRemove(request.params.id, {}, (err, docs) => {
-    if (!err) {
-      response.send(docs);
-    } else {
-      console.log(`Error to delete data : ${err}`);
-    }
-  });
 });
-console.log("This shows errors");
+// // UPDATE
+// router.put("/:id", (request, response) => {
+//   console.log("update race");
+//   if (!ObjectId.isValid(request.params.id)) {
+//     return response.status(400).send(`Unknown ID : ${request.params.id}`);
+//   }
+
+//   const recordToUpdate = {
+//     name: request.body.name,
+//     description: request.body.description,
+//     folder: request.body.folder,
+//     displayed: request.body.displayed,
+//   };
+
+//   racesModel.findByIdAndUpdate(
+//     request.params.id,
+//     { $set: recordToUpdate },
+//     { new: true },
+//     (err, docs) => {
+//       if (!err) {
+//         response.send(docs);
+//       } else {
+//         console.log(`Error to update  data : ${err}`);
+//       }
+//     }
+//   );
+// });
 
 export default router;

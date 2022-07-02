@@ -1,5 +1,12 @@
 //********** Imports **********//
-import { Mongoose } from "mongoose";
+import MySQL from "mysql";
 
-export const mongoose = new Mongoose();
-export const ObjectId = mongoose.Types.ObjectId;
+//********** Config **********//
+export const pool = MySQL.createPool({
+  connectionLimit: 10,
+  password: "root",
+  user: "root",
+  database: "livsiggenapi",
+  host: "localhost",
+  port: 3306,
+});

@@ -1,6 +1,5 @@
 //********** Imports **********//
 import express from "express";
-import signalersController from "./routes/signalersController";
 import racePointsController from "./routes/racePointsController";
 import racesController from "./routes/racesController";
 import cors from "cors";
@@ -23,11 +22,9 @@ export default class Server {
     app.use(cors(options));
     // Middleware to parse json throught requests.
     app.use(express.json());
-    // Middleware to define route to signalers controller.
-    app.use("/signalers", signalersController);
-    // Middleware to define route to signalers controller.
+    // Middleware to define route to races controller.
     app.use("/races", racesController);
-    // Middleware to define route to signalers controller.
+    // Middleware to define route to racePoints controller.
     app.use("/racePoints", racePointsController);
     // Defining the port the app will listen requests.
     app.listen(this.port, () => {

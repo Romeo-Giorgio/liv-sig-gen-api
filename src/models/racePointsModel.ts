@@ -1,19 +1,54 @@
 //********** Imports **********//
-import { model, Schema } from "mongoose";
-import { Race } from "./racesModel";
+import { pool } from "./dbConfig";
 
 //********** Types **********//
 export interface RacePoint {
-  race: Race;
+  racePointId: string;
+  raceId: string;
   latitude: number;
   longitude: number;
 }
 
-//********** Model **********//
-const racePointsSchema = new Schema<RacePoint>({
-  race: { type: Schema.Types.ObjectId, ref: "Race" },
-  latitude: { type: Number, required: true },
-  longitude: { type: Number, required: true },
-});
+//********** Model **********/
+export const racePointsModel = {
+  getAllByRaceId: (raceId: string) => {
+    return new Promise((resolve, reject) => {
+      pool.query(
+        `select * from racePoint where raceId = '${raceId}'`,
+        (err, results) => {
+          if (err) {
+            return reject(err);
+          }
+          return resolve(results);
+        }
+      );
+    });
+  },
 
-export const racePointsModel = model<RacePoint>("RacePoint", racePointsSchema);
+  create: (racePoint: RacePoint) => {
+    return new Promise((resolve, reject) => {
+      pool.query(
+        `insert into racePoint (racePointId, raceId, latitude, longitude) values ('${racePoint.racePointId}', '${racePoint.raceId}', '${racePoint.latitude}', '${racePoint.longitude}')`,
+        (err, results) => {
+          if (err) {
+            return reject(err);
+          }
+          return resolve(results);
+        }
+      );
+    });
+  },
+  deleteByRaceId: (raceId: string) => {
+    return new Promise((resolve, reject) => {
+      pool.query(
+        `delete from racePoint where raceId = '${raceId}'`,
+        (err, results) => {
+          if (err) {
+            return reject(err);
+          }
+          return resolve(results);
+        }
+      );
+    });
+  },
+};
