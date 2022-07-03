@@ -5,30 +5,30 @@ drop table if exists racePoint;
 drop table if exists race;
 
 create table race (
-	raceId char(10) not null,
+	id char(10) not null,
 	name varchar(150) not null,
 	description varchar(10000),
 	displayed boolean ,
-	constraint pk_race primary key (raceId)
+	constraint pk_race primary key (id)
 );
 insert into race values ("a0c1e2g3i4", "Course 10km chronométrée", "", true);
 insert into race values ("abcdefghij", "Course 6km", "Non chronométrée", true);
 
 create table racePoint (
-	racePointId char(10) not null,
+	id char(10) not null,
 	raceId char(10) not null,
 	latitude varchar(100) not null,
 	longitude varchar(100) not null,
-	constraint pk_racePoint primary key (racePointId),
-	constraint fk_racePoint_race foreign key (raceId) references race(raceId)
+	constraint pk_racePoint primary key (id),
+	constraint fk_racePoint_race foreign key (raceId) references race(id)
 );
-INSERT INTO RacePoint (racePointId,raceId,latitude,longitude)
+INSERT INTO RacePoint (id,raceId,latitude,longitude)
 VALUES ('1331374','a0c1e2g3i4','-24.5587','-69.9108');
-INSERT INTO RacePoint (racePointId,raceId,latitude,longitude)
+INSERT INTO RacePoint (id,raceId,latitude,longitude)
 VALUES ('1331375','a0c1e2g3i4','-34.1611','-152.9223');
 
 create table signaler(
-  signalerId char(10) not null,
+  id char(10) not null,
   referent char(10),
   lastName varchar(255) not null,
   firstName varchar(255) not null,
@@ -37,9 +37,9 @@ create table signaler(
   drivingLicence boolean not null,
   latitude varchar(100),
   longitude varchar(100),
-  constraint pk_signaler primary key (signalerId),
-  constraint fk_signaler_signaler foreign key (referent) references signaler (signalerId)
+  constraint pk_signaler primary key (id),
+  constraint fk_signaler_signaler foreign key (referent) references signaler (id)
 ); 
 
-insert into signaler (signalerId, lastName, firstName, phone, mail, drivingLicence) values ("01az02er03", "Durand", "Paul", "0678912345", "paul.durand@gmail.com", true);
-insert into signaler (signalerId, referent, lastName, firstName, phone, mail, drivingLicence) values ("10az20er30", "01az02er03", "Durand", "Paul", "0678912345", "paul.durand@gmail.com", false);
+insert into signaler (id, lastName, firstName, phone, mail, drivingLicence) values ("01az02er03", "Durand", "Paul", "0678912345", "paul.durand@gmail.com", true);
+insert into signaler (id, referent, lastName, firstName, phone, mail, drivingLicence) values ("10az20er30", "01az02er03", "Durand", "Paul", "0678912345", "paul.durand@gmail.com", false);
