@@ -2,6 +2,7 @@
 import express from "express";
 import racePointsController from "./routes/racePointsController";
 import racesController from "./routes/racesController";
+import signalerController from "./routes/signalerController";
 import cors from "cors";
 
 const allowedOrigins = ["http://localhost:3000", "http://127.0.0.1:3000"];
@@ -26,6 +27,9 @@ export default class Server {
     app.use("/races", racesController);
     // Middleware to define route to racePoints controller.
     app.use("/racePoints", racePointsController);
+    app.use("/races", racesController);
+    // Middleware to define route to Signalers controller.
+    app.use("/signalers", signalerController);
     // Defining the port the app will listen requests.
     app.listen(this.port, () => {
       console.log(`Server started on port ${this.port}`);
