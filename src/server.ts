@@ -27,8 +27,6 @@ export default class Server {
     app.use("/races", racesController);
     // Middleware to define route to racePoints controller.
     app.use("/racePoints", racePointsController);
-    app.use("/races", racesController);
-    // Middleware to define route to Signalers controller.
     app.use("/signalers", signalerController);
     // Defining the port the app will listen requests.
     app.listen(this.port, () => {
