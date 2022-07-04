@@ -31,10 +31,9 @@ router.get("/:raceId", async (request, response) => {
 router.post("/", async (request, response) => {
   try {
     const newRace: Race = {
-      raceId: request.body.raceId,
+      id: request.body.id,
       name: request.body.name,
       description: request.body.description,
-      displayed: request.body.displayed,
     };
     const results = await racesModel.create(newRace);
     response.json(results);

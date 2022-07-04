@@ -21,10 +21,11 @@ router.get("/:raceId", async (request, response) => {
 router.post("/", async (request, response) => {
   try {
     const newRacePoint: RacePoint = {
-      racePointId: request.body.racePointId,
+      id: request.body.id,
       raceId: request.body.raceId,
       latitude: request.body.latitude,
       longitude: request.body.longitude,
+      nb: request.body.nb,
     };
     const results = await racePointsModel.create(newRacePoint);
     response.json(results);
