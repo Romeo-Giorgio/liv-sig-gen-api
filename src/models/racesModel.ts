@@ -3,10 +3,9 @@ import { pool } from "./dbConfig";
 
 //********** Types **********//
 export interface Race {
-  raceId: string;
+  id: string;
   name: string;
   description?: string;
-  displayed?: boolean;
 }
 
 //********** Model **********//
@@ -25,7 +24,7 @@ export const racesModel = {
   getById: (raceId: string) => {
     return new Promise((resolve, reject) => {
       pool.query(
-        `select * from race where raceId = '${raceId}'`,
+        `select * from race where id = '${raceId}'`,
         (err, results) => {
           if (err) {
             return reject(err);
@@ -39,12 +38,20 @@ export const racesModel = {
   create: (race: Race) => {
     return new Promise((resolve, reject) => {
       pool.query(
-        `insert into race (raceId, name, description, displayed) values ('${race.raceId}', '${race.name}', '${race.description}',${race.displayed})`,
-        (err, results) => {
+        `insert into race (id, name, description) values ('${race.id}', '${race.name}', '${race.description}')`,
+        (err, _) => {
           if (err) {
             return reject(err);
           }
-          return resolve(results);
+          pool.query(
+            `select * from race where id = '${race.id}'`,
+            (err, results) => {
+              if (err) {
+                return reject(err);
+              }
+              return resolve(results[0]);
+            }
+          );
         }
       );
     });
@@ -52,15 +59,12 @@ export const racesModel = {
 
   delete: (raceId: string) => {
     return new Promise((resolve, reject) => {
-      pool.query(
-        `delete from race where raceId = '${raceId}'`,
-        (err, results) => {
-          if (err) {
-            return reject(err);
-          }
-          return resolve(results);
+      pool.query(`delete from race where id = '${raceId}'`, (err, results) => {
+        if (err) {
+          return reject(err);
         }
-      );
+        return resolve({ deletedId: raceId });
+      });
     });
   },
-};          
+};

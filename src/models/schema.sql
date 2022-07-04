@@ -8,24 +8,24 @@ create table race (
 	id char(10) not null,
 	name varchar(150) not null,
 	description varchar(10000),
-	displayed boolean ,
 	constraint pk_race primary key (id)
 );
-insert into race values ("a0c1e2g3i4", "Course 10km chronométrée", "", true);
-insert into race values ("abcdefghij", "Course 6km", "Non chronométrée", true);
+insert into race values ("a0c1e2g3i4", "Course 10km chronométrée", "");
+insert into race values ("abcdefghij", "Course 6km", "Non chronométrée");
 
 create table racePoint (
 	id char(10) not null,
 	raceId char(10) not null,
 	latitude varchar(100) not null,
 	longitude varchar(100) not null,
+	nb integer not null,
 	constraint pk_racePoint primary key (id),
 	constraint fk_racePoint_race foreign key (raceId) references race(id)
 );
-INSERT INTO RacePoint (id,raceId,latitude,longitude)
-VALUES ('1331374','a0c1e2g3i4','-24.5587','-69.9108');
-INSERT INTO RacePoint (id,raceId,latitude,longitude)
-VALUES ('1331375','a0c1e2g3i4','-34.1611','-152.9223');
+INSERT INTO RacePoint (id,raceId,latitude,longitude, nb)
+VALUES ('1331374','a0c1e2g3i4','2','49' ,0);
+INSERT INTO RacePoint (id,raceId,latitude,longitude, nb)
+VALUES ('1331375','a0c1e2g3i4','2.128059387207024','49.00788277585271',1);
 
 create table signaler(
   id char(10) not null,
