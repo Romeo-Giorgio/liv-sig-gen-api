@@ -25,7 +25,6 @@ router.post("/", async (request, response) => {
       raceId: request.body.raceId,
       latitude: request.body.latitude,
       longitude: request.body.longitude,
-      nb: request.body.nb,
     };
     const results = await racePointsModel.create(newRacePoint);
     response.json(results);
@@ -35,9 +34,9 @@ router.post("/", async (request, response) => {
   }
 });
 // DELETE
-router.delete("/:raceId", async (request, response) => {
+router.delete("/:id", async (request, response) => {
   try {
-    const results = await racePointsModel.deleteByRaceId(request.params.raceId);
+    const results = await racePointsModel.deleteById(request.params.id);
     response.json(results);
   } catch (e) {
     console.log(e);
@@ -45,30 +44,21 @@ router.delete("/:raceId", async (request, response) => {
   }
 });
 
-// // UPDATE
-// router.put("/:id", (request, response) => {
-//   if (!ObjectId.isValid(request.params.id)) {
-//     return response.status(400).send(`Unknown ID : ${request.params.id}`);
-//   }
-
-//   const recordToUpdate = {
-//     race: request.body.race,
-//     latitude: request.body.latitude,
-//     longitude: request.body.longitude,
-//   };
-
-//   racePointsModel.findByIdAndUpdate(
-//     request.params.id,
-//     { $set: recordToUpdate },
-//     { new: true },
-//     (err, docs) => {
-//       if (!err) {
-//         response.send(docs);
-//       } else {
-//         console.log(`Error to update  data : ${err}`);
-//       }
-//     }
-//   );
-// });
+// UPDATE
+router.put("/:id", async (request, response) => {
+  try {
+    const recordToUpdate: RacePoint = {
+      id: Number(request.params.id),
+      raceId: request.body.raceId,
+      latitude: request.body.latitude,
+      longitude: request.body.longitude,
+    };
+    const results = await racePointsModel.updateCoordinatesById(recordToUpdate);
+    response.json(results);
+  } catch (e) {
+    console.log(e);
+    response.sendStatus(500);
+  }
+});
 
 export default router;
