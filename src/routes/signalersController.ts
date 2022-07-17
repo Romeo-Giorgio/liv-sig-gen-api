@@ -28,7 +28,6 @@ router.get("/:signalerID", async (request, response) => {
 });
 // CREATE
 router.post("/", async (request, response) => {
-  console.log(request.body);
   try {
     const newSignaler: Signaler = {
       signalerId: request.body.signalerId,
