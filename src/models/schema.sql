@@ -15,18 +15,17 @@ insert into race values ("a0c1e2g3i4", "Course 10km chronométrée", "", true);
 insert into race values ("abcdefghij", "Course 6km", "Non chronométrée", true);
 
 create table racePoint (
-	id char(10) not null,
+	id bigint not null,
 	raceId char(10) not null,
 	latitude varchar(100) not null,
 	longitude varchar(100) not null,
-    nb integer not null,
 	constraint pk_racePoint primary key (id),
-	constraint fk_racePoint_race foreign key (raceId) references race(id)
+	constraint fk_racePoint_race foreign key (raceId) references race(id) on delete cascade
 );
-INSERT INTO RacePoint (id,raceId,latitude,longitude, nb)
-VALUES ('1331374','a0c1e2g3i4','49','2', 0);
-INSERT INTO RacePoint (id,raceId,latitude,longitude, nb)
-VALUES ('1331375','a0c1e2g3i4','49.1','2.1', 1);
+INSERT INTO RacePoint (id,raceId,latitude,longitude)
+VALUES (1658054553345,'a0c1e2g3i4','49','2');
+INSERT INTO RacePoint (id,raceId,latitude,longitude)
+VALUES (1658054553346,'a0c1e2g3i4','49.1','2.1');
 
 create table signaler(
   id char(10) not null,
