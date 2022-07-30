@@ -30,10 +30,11 @@ router.get("/:signalerID", async (request, response) => {
 router.post("/", async (request, response) => {
   try {
     const newSignaler: Signaler = {
-      signalerId: request.body.signalerId,
+      id: request.body.signalerId,
       firstName: request.body.firstName,
       lastName: request.body.lastName,
       phone: request.body.phone,
+      mail: request.body.mail,
       drivingLicence: request.body.drivingLicence,
       latitude: request.body.latitude,
       longitude: request.body.longitude,
@@ -56,4 +57,24 @@ router.delete("/:signalerId", async (request, response) => {
   }
 });
 
+// UPDATE
+router.put("/:id", async (request, response) => {
+  try {
+    const recordToUpdate: Signaler = {
+      id: request.params.id,
+      firstName: request.body.firstName,
+      lastName: request.body.lastName,
+      phone: request.body.phone,
+      mail: request.body.mail,
+      drivingLicence: request.body.drivingLicence,
+      latitude: request.body.latitude,
+      longitude: request.body.longitude,
+    };
+    const results = await signalersModel.update(recordToUpdate);
+    response.json(results);
+  } catch (e) {
+    console.log(e);
+    response.sendStatus(500);
+  }
+});
 export default router;

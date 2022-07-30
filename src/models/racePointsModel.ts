@@ -11,6 +11,17 @@ export interface RacePoint {
 
 //********** Model **********/
 export const racePointsModel = {
+  getAll: () => {
+    return new Promise((resolve, reject) => {
+      pool.query("select * from racePoint", (err, results) => {
+        if (err) {
+          return reject(err);
+        }
+        return resolve(results);
+      });
+    });
+  },
+
   getAllByRaceId: (raceId: string) => {
     return new Promise((resolve, reject) => {
       pool.query(
@@ -59,7 +70,7 @@ export const racePointsModel = {
   updateCoordinatesById: (updatedRacePoint: RacePoint) => {
     return new Promise((resolve, reject) => {
       pool.query(
-        `update racePoint set latitude=${updatedRacePoint.latitude}, longitude=${updatedRacePoint.longitude} where id='${updatedRacePoint.id}'`,
+        `update racePoint set latitude='${updatedRacePoint.latitude}', longitude='${updatedRacePoint.longitude}' where id='${updatedRacePoint.id}'`,
         (err, results) => {
           if (err) {
             return reject(err);

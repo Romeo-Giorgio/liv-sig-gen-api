@@ -42,4 +42,4 @@ create table signaler(
 ); 
 
 insert into signaler (id, lastName, firstName, phone, mail, drivingLicence) values ("01az02er03", "Durand", "Paul", "0678912345", "paul.durand@gmail.com", true);
-insert into signaler (id, referent, lastName, firstName, phone, mail, drivingLicence) values ("10az20er30", "01az02er03", "Durand", "Paul", "0678912345", "paul.durand@gmail.com", false);
+insert into signaler (id, referent, lastName, firstName, phone, mail, drivingLicence) values ("10az20er30", "01az02er03", "Durand", "Pierre", "0678912345", "pierre.durand@gmail.com", false);

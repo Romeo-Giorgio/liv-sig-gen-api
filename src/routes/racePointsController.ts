@@ -7,6 +7,15 @@ const router = express.Router();
 //********** Routes **********//
 
 // READ
+router.get("/", async (request, response) => {
+  try {
+    const results = await racePointsModel.getAll();
+    response.json(results);
+  } catch (e) {
+    console.log(e);
+    response.sendStatus(500);
+  }
+});
 router.get("/:raceId", async (request, response) => {
   try {
     const results = await racePointsModel.getAllByRaceId(request.params.raceId);
