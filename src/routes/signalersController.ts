@@ -30,7 +30,7 @@ router.get("/:signalerID", async (request, response) => {
 router.post("/", async (request, response) => {
   try {
     const newSignaler: Signaler = {
-      id: request.body.signalerId,
+      id: request.body.id,
       firstName: request.body.firstName,
       lastName: request.body.lastName,
       phone: request.body.phone,
@@ -38,6 +38,7 @@ router.post("/", async (request, response) => {
       drivingLicence: request.body.drivingLicence,
       latitude: request.body.latitude,
       longitude: request.body.longitude,
+      referent: request.body.referent,
     };
     const results = await signalersModel.create(newSignaler);
     response.json(results);
@@ -47,9 +48,9 @@ router.post("/", async (request, response) => {
   }
 });
 // DELETE
-router.delete("/:signalerId", async (request, response) => {
+router.delete("/:id", async (request, response) => {
   try {
-    const results = await signalersModel.delete(request.params.signalerId);
+    const results = await signalersModel.delete(request.params.id);
     response.json(results);
   } catch (e) {
     console.log(e);
@@ -69,6 +70,7 @@ router.put("/:id", async (request, response) => {
       drivingLicence: request.body.drivingLicence,
       latitude: request.body.latitude,
       longitude: request.body.longitude,
+      referent: request.body.referent,
     };
     const results = await signalersModel.update(recordToUpdate);
     response.json(results);

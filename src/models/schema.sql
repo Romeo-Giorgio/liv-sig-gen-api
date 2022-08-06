@@ -9,10 +9,11 @@ create table race (
 	name varchar(150) not null,
 	description varchar(10000),
 	displayed boolean ,
+    color varchar(20),
 	constraint pk_race primary key (id)
 );
-insert into race values ("a0c1e2g3i4", "Course 10km chronométrée", "", true);
-insert into race values ("abcdefghij", "Course 6km", "Non chronométrée", true);
+insert into race values ("a0c1e2g3i4", "Course 10km chronométrée", "", true, "#0331DC");
+insert into race values ("abcdefghij", "Course 6km", "Non chronométrée", true, "#DC3803");
 
 create table racePoint (
 	id bigint not null,

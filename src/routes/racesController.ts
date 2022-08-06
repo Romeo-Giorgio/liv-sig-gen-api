@@ -34,6 +34,7 @@ router.post("/", async (request, response) => {
       id: request.body.id,
       name: request.body.name,
       description: request.body.description,
+      color: request.body.color,
     };
     const results = await racesModel.create(newRace);
     response.json(results);
@@ -52,32 +53,20 @@ router.delete("/:raceId", async (request, response) => {
     response.sendStatus(500);
   }
 });
-// // UPDATE
-// router.put("/:id", (request, response) => {
-//   console.log("update race");
-//   if (!ObjectId.isValid(request.params.id)) {
-//     return response.status(400).send(`Unknown ID : ${request.params.id}`);
-//   }
-
-//   const recordToUpdate = {
-//     name: request.body.name,
-//     description: request.body.description,
-//     folder: request.body.folder,
-//     displayed: request.body.displayed,
-//   };
-
-//   racesModel.findByIdAndUpdate(
-//     request.params.id,
-//     { $set: recordToUpdate },
-//     { new: true },
-//     (err, docs) => {
-//       if (!err) {
-//         response.send(docs);
-//       } else {
-//         console.log(`Error to update  data : ${err}`);
-//       }
-//     }
-//   );
-// });
-
+// UPDATE
+router.put("/:id", async (request, response) => {
+  try {
+    const recordToUpdate: Race = {
+      id: request.params.id,
+      color: request.body.color,
+      name: request.body.name,
+      description: request.body.description,
+    };
+    const results = await racesModel.update(recordToUpdate);
+    response.json(results);
+  } catch (e) {
+    console.log(e);
+    response.sendStatus(500);
+  }
+});
 export default router;

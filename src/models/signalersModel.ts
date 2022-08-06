@@ -11,6 +11,7 @@ export interface Signaler {
   drivingLicence: boolean;
   latitude: number;
   longitude: number;
+  referent: string;
 }
 
 export const signalersModel = {
@@ -27,13 +28,26 @@ export const signalersModel = {
   create: (signaler: Signaler) => {
     return new Promise((resolve, reject) => {
       pool.query(
-        `insert into signaler (id, lastName, firstName, phone, mail, drivingLicence, latitude, longitude) 
-                values ('${signaler.id}', '${signaler.lastName}', '${signaler.firstName}', '${signaler.phone}', '${signaler.mail}', '${signaler.drivingLicence}', '${signaler.latitude}', '${signaler.longitude}')`,
+        `insert into signaler (id, lastName, firstName, phone, mail, drivingLicence${
+          signaler.referent !== undefined ? ", referent" : ""
+        }) values ('${signaler.id}', '${signaler.lastName}', '${
+          signaler.firstName
+        }', '${signaler.phone}', '${signaler.mail}', ${
+          signaler.drivingLicence
+        }${signaler.referent !== undefined ? `, '${signaler.referent}'` : ""})`,
         (err, results) => {
           if (err) {
             return reject(err);
           }
-          return resolve(results);
+          pool.query(
+            `select * from signaler where id = '${signaler.id}'`,
+            (err, results) => {
+              if (err) {
+                return reject(err);
+              }
+              return resolve(results[0]);
+            }
+          );
         }
       );
     });
@@ -59,7 +73,7 @@ export const signalersModel = {
           if (err) {
             return reject(err);
           }
-          return resolve(results);
+          return resolve({ deletedId: signalerId });
         }
       );
     });
@@ -67,7 +81,19 @@ export const signalersModel = {
   update: (updatedSignaler: Signaler) => {
     return new Promise((resolve, reject) => {
       pool.query(
-        `update signaler set firstName='${updatedSignaler.firstName}', lastName='${updatedSignaler.lastName}', phone='${updatedSignaler.phone}', mail='${updatedSignaler.mail}', latitude='${updatedSignaler.latitude}', longitude='${updatedSignaler.longitude}', drivingLicence=${updatedSignaler.drivingLicence} where id='${updatedSignaler.id}'`,
+        `update signaler set firstName='${
+          updatedSignaler.firstName
+        }', lastName='${updatedSignaler.lastName}', phone='${
+          updatedSignaler.phone
+        }', mail='${updatedSignaler.mail}', latitude='${
+          updatedSignaler.latitude
+        }', longitude='${updatedSignaler.longitude}', drivingLicence=${
+          updatedSignaler.drivingLicence
+        }${
+          updatedSignaler.referent !== undefined
+            ? `, referent='${updatedSignaler.referent}'`
+            : ""
+        } where id='${updatedSignaler.id}'`,
         (err, results) => {
           if (err) {
             return reject(err);

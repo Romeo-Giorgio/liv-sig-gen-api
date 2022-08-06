@@ -6,6 +6,7 @@ export interface Race {
   id: string;
   name: string;
   description?: string;
+  color: string;
 }
 
 //********** Model **********//
@@ -65,6 +66,25 @@ export const racesModel = {
         }
         return resolve({ deletedId: raceId });
       });
+    });
+  },
+  update: (updatedRace: Race) => {
+    return new Promise((resolve, reject) => {
+      pool.query(
+        `update race set color='${updatedRace.color}', name='${
+          updatedRace.name
+        }'${
+          updatedRace.description != null
+            ? `, description='${updatedRace.description}'`
+            : ""
+        } where id='${updatedRace.id}'`,
+        (err, results) => {
+          if (err) {
+            return reject(err);
+          }
+          return resolve({ updatedRace: updatedRace });
+        }
+      );
     });
   },
 };
