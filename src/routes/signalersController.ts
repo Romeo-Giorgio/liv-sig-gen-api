@@ -39,6 +39,9 @@ router.post("/", async (request, response) => {
       latitude: request.body.latitude,
       longitude: request.body.longitude,
       referent: request.body.referent,
+      previousSignaler: request.body.previousSignaler,
+      nextSignaler: request.body.nextSignaler,
+      localisation: request.body.localisation,
     };
     const results = await signalersModel.create(newSignaler);
     response.json(results);
@@ -71,6 +74,9 @@ router.put("/:id", async (request, response) => {
       latitude: request.body.latitude,
       longitude: request.body.longitude,
       referent: request.body.referent,
+      previousSignaler: request.body.previousSignaler,
+      nextSignaler: request.body.nextSignaler,
+      localisation: request.body.localisation,
     };
     const results = await signalersModel.update(recordToUpdate);
     response.json(results);

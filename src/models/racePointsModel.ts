@@ -40,7 +40,7 @@ export const racePointsModel = {
     return new Promise((resolve, reject) => {
       pool.query(
         `insert into racePoint (id, raceId, latitude, longitude) values (${racePoint.id}, '${racePoint.raceId}', '${racePoint.latitude}', '${racePoint.longitude}')`,
-        (err, results) => {
+        (err, _) => {
           if (err) {
             return reject(err);
           }
@@ -71,7 +71,7 @@ export const racePointsModel = {
     return new Promise((resolve, reject) => {
       pool.query(
         `update racePoint set latitude='${updatedRacePoint.latitude}', longitude='${updatedRacePoint.longitude}' where id='${updatedRacePoint.id}'`,
-        (err, results) => {
+        (err, _) => {
           if (err) {
             return reject(err);
           }

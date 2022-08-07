@@ -12,6 +12,9 @@ export interface Signaler {
   latitude: number;
   longitude: number;
   referent: string;
+  previousSignaler: string;
+  nextSignaler: string;
+  localisation: string;
 }
 
 export const signalersModel = {
@@ -28,13 +31,23 @@ export const signalersModel = {
   create: (signaler: Signaler) => {
     return new Promise((resolve, reject) => {
       pool.query(
-        `insert into signaler (id, lastName, firstName, phone, mail, drivingLicence${
-          signaler.referent !== undefined ? ", referent" : ""
+        `insert into signaler (id, lastName, firstName, phone, mail, drivingLicence, localisation${
+          signaler.referent != null ? ", referent" : ""
+        }${signaler.previousSignaler != null ? ", previousSignaler" : ""}${
+          signaler.nextSignaler != null ? ", nextSignaler" : ""
         }) values ('${signaler.id}', '${signaler.lastName}', '${
           signaler.firstName
         }', '${signaler.phone}', '${signaler.mail}', ${
           signaler.drivingLicence
-        }${signaler.referent !== undefined ? `, '${signaler.referent}'` : ""})`,
+        },'${signaler.localisation}'${
+          signaler.referent != null ? `, '${signaler.referent}'` : ""
+        }${
+          signaler.previousSignaler != null
+            ? `, '${signaler.previousSignaler}'`
+            : ""
+        }${
+          signaler.nextSignaler != null ? `, '${signaler.nextSignaler}'` : ""
+        })`,
         (err, results) => {
           if (err) {
             return reject(err);
@@ -68,8 +81,8 @@ export const signalersModel = {
   delete: (signalerId: string) => {
     return new Promise((resolve, reject) => {
       pool.query(
-        `delete from signaler where id = '${signalerId}'`,
-        (err, results) => {
+        `delete from signaler where id = '${signalerId}';`,
+        (err, _) => {
           if (err) {
             return reject(err);
           }
@@ -87,14 +100,24 @@ export const signalersModel = {
           updatedSignaler.phone
         }', mail='${updatedSignaler.mail}', latitude='${
           updatedSignaler.latitude
-        }', longitude='${updatedSignaler.longitude}', drivingLicence=${
-          updatedSignaler.drivingLicence
-        }${
-          updatedSignaler.referent !== undefined
+        }', longitude='${updatedSignaler.longitude}', localisation='${
+          updatedSignaler.localisation
+        }',drivingLicence=${updatedSignaler.drivingLicence}${
+          updatedSignaler.referent != null && updatedSignaler.referent !== ""
             ? `, referent='${updatedSignaler.referent}'`
             : ""
+        }${
+          updatedSignaler.previousSignaler != null &&
+          updatedSignaler.previousSignaler !== ""
+            ? `, previousSignaler='${updatedSignaler.previousSignaler}'`
+            : ""
+        }${
+          updatedSignaler.nextSignaler != null &&
+          updatedSignaler.nextSignaler !== ""
+            ? `, nextSignaler='${updatedSignaler.nextSignaler}'`
+            : ""
         } where id='${updatedSignaler.id}'`,
-        (err, results) => {
+        (err, _) => {
           if (err) {
             return reject(err);
           }

@@ -39,7 +39,7 @@ export const racesModel = {
   create: (race: Race) => {
     return new Promise((resolve, reject) => {
       pool.query(
-        `insert into race (id, name, description) values ('${race.id}', '${race.name}', '${race.description}')`,
+        `insert into race (id, name, description, color) values ('${race.id}', '${race.name}', '${race.description}', '${race.color}')`,
         (err, _) => {
           if (err) {
             return reject(err);
@@ -68,6 +68,7 @@ export const racesModel = {
       });
     });
   },
+
   update: (updatedRace: Race) => {
     return new Promise((resolve, reject) => {
       pool.query(
@@ -78,7 +79,7 @@ export const racesModel = {
             ? `, description='${updatedRace.description}'`
             : ""
         } where id='${updatedRace.id}'`,
-        (err, results) => {
+        (err, _) => {
           if (err) {
             return reject(err);
           }
