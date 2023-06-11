@@ -1,5 +1,5 @@
 //********** Imports **********/
-import { pool } from "./dbConfig";
+import { sql } from "./dbConfig";
 
 //********** Types **********//
 export interface Race {
@@ -11,81 +11,38 @@ export interface Race {
 
 //********** Model **********//
 export const racesModel = {
-  getAll: () => {
-    return new Promise((resolve, reject) => {
-      pool.query("select * from race", (err, results) => {
-        if (err) {
-          return reject(err);
-        }
-        return resolve(results);
-      });
-    });
+  getAll: async function getallRaces() {
+    const races = await sql`select * from race`;
+    return races;
   },
 
-  getById: (raceId: string) => {
-    return new Promise((resolve, reject) => {
-      pool.query(
-        `select * from race where id = '${raceId}'`,
-        (err, results) => {
-          if (err) {
-            return reject(err);
-          }
-          return resolve(results[0]);
-        }
-      );
-    });
+  getById: async function getRaceById(raceId: string) {
+    const race = await sql`select * from race where id =${raceId}`;
+    return race;
   },
 
-  create: (race: Race) => {
-    return new Promise((resolve, reject) => {
-      pool.query(
-        `insert into race (id, name, description, color) values ('${race.id}', '${race.name}', '${race.description}', '${race.color}')`,
-        (err, _) => {
-          if (err) {
-            return reject(err);
-          }
-          pool.query(
-            `select * from race where id = '${race.id}'`,
-            (err, results) => {
-              if (err) {
-                return reject(err);
-              }
-              return resolve(results[0]);
-            }
-          );
-        }
-      );
-    });
+  create: async function addRace(race: Race) {
+    const id = race.id;
+    const name = race.name;
+    const description = race?.description ?? "";
+    const color = race.color;
+    const newRace =
+      await sql`insert into race (id, name, description, color) values (${id}, ${name}, ${description}, ${color}) returning id, name, description, color`;
+    return newRace;
   },
 
-  delete: (raceId: string) => {
-    return new Promise((resolve, reject) => {
-      pool.query(`delete from race where id = '${raceId}'`, (err, results) => {
-        if (err) {
-          return reject(err);
-        }
-        return resolve({ deletedId: raceId });
-      });
-    });
+  delete: async function deleteRace(raceId: string) {
+    const deletedId =
+      await sql`delete from race where id = ${raceId} returning id as deletedId`;
+    return deletedId[0];
   },
 
-  update: (updatedRace: Race) => {
-    return new Promise((resolve, reject) => {
-      pool.query(
-        `update race set color='${updatedRace.color}', name='${
-          updatedRace.name
-        }'${
-          updatedRace.description != null
-            ? `, description='${updatedRace.description}'`
-            : ""
-        } where id='${updatedRace.id}'`,
-        (err, _) => {
-          if (err) {
-            return reject(err);
-          }
-          return resolve({ updatedRace: updatedRace });
-        }
-      );
-    });
+  update: async function updateRace(updatedRace: Race) {
+    const updatedRaceResult = await sql`update race set color=${
+      updatedRace.color
+    }, name=${updatedRace.name}, description=${
+      updatedRace.description ?? ""
+    } where id=${updatedRace.id} returning id, name, description, color`;
+    return { updatedRace: updatedRaceResult };
   },
 };

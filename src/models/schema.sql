@@ -1,5 +1,5 @@
--- create database livsiggenapi;
-use livSigGenApi;
+-- create database livsiggendb;
+use livsiggendb;
 drop table if exists signaler;
 drop table if exists racePoint;
 drop table if exists race;
@@ -12,8 +12,9 @@ create table race (
     color varchar(20),
 	constraint pk_race primary key (id)
 );
-insert into race values ("a0c1e2g3i4", "Course 10km", "Chronométrée",  "#0331DC");
-insert into race values ("abcdefghij", "Course 6km", "Non chronométrée",  "#DC3803");
+
+use livsiggendb;
+INSERT INTO race (id, name, description, color) VALUES('a0c1e2g3i4', 'Course 10km', 'Chronom�tr�e',  '#0331DC'), ('abcdefghij', 'Course 6km', 'Non chronom�tr�e',  '#DC3803');
 
 create table racePoint (
 	id bigint not null,
@@ -47,8 +48,8 @@ create table signaler(
   constraint fk_signaler_signalerNext foreign key (nextSignaler) references signaler (id )ON DELETE SET NULL
 ); 
 
-insert into signaler (id, lastName, firstName, phone, mail, drivingLicence) values ("01az02er03", "Durand", "Paul", "0678912345", "paul.durand@gmail.com", true);
-insert into signaler (id, referent, lastName, firstName, phone, mail, drivingLicence) values ("10az20er30", "01az02er03", "Durand", "Pierre", "0678912345", "pierre.durand@gmail.com", false);
+insert into signaler (id, lastName, firstName, phone, mail, drivingLicence) values ('01az02er03', 'Durand', 'Paul', '0678912345', 'paul.durand@gmail.com', true);
+insert into signaler (id, referent, lastName, firstName, phone, mail, drivingLicence) values ('10az20er30', '01az02er03', 'Durand', 'Pierre', '0678912345', 'pierre.durand@gmail.com', false);
 
 create table evenement(
   id int not null,
@@ -59,6 +60,6 @@ create table evenement(
   constraint pk_evenement primary key (id)
 );
 
-insert into evenement values(1, "Virade de l'espoir de Cergy-Pontoise", "Samedi 24 septembre 2022", "Raphaël Ferreira 06.85.54.28.02", "Hélène THIBAULT, responsable de la mise en place des signaleurs 07.85.58.97.92
+insert into evenement values(1, 'Virade de l''espoir de Cergy-Pontoise', 'Samedi 24 septembre 2022', 'Raphaël Ferreira 06.85.54.28.02', 'Hélène THIBAULT, responsable de la mise en place des signaleurs 07.85.58.97.92
  
-Sophie SCHRECK, organisatrice de la Virade de l'Espoir de Cergy Pontoise, 06.82.97.22.24" );
+Sophie SCHRECK, organisatrice de la Virade de l''Espoir de Cergy Pontoise, 06.82.97.22.24' );

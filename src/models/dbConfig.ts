@@ -1,12 +1,6 @@
 //********** Imports **********//
-import MySQL from "mysql";
+import postgres from "postgres";
+import config from "../config";
 
 //********** Config **********//
-export const pool = MySQL.createPool({
-  connectionLimit: 10,
-  password: "root",
-  user: "root",
-  database: "livsiggenapi",
-  host: "localhost",
-  port: 3306,
-});
+export const sql = postgres(config.POSTGRE_URL ?? "");
