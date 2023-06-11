@@ -2,5 +2,5 @@
 import Server from "./server";
 
 //********** Entry **********//
-const server = new Server(80);
+const server = new Server(5500);
 server.start();
